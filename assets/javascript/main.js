@@ -12,6 +12,7 @@ form.addEventListener('submit', (e)=>{
         addTodoElement({
             text: contentValue,
         })
+        saveTodoList()
     }
     inputContent.value = ''
 })
@@ -19,7 +20,7 @@ function addTodoElement(todo) {
     let liTodo = document.createElement('li')
     
     liTodo.innerHTML = `
-        <span>${todo.text}</span>
+        <span class='${todo.status}'>${todo.text}</span>
         <input
             type="text"
             value="${todo.text}"
@@ -38,6 +39,7 @@ function addTodoElement(todo) {
             //delete a todo then update the quantity
             count()
             hiddenFooter()
+            saveTodoList()
         })
     // tick todo completed
     let spanTodo = liTodo.querySelector('span:first-child')
@@ -45,6 +47,7 @@ function addTodoElement(todo) {
         this.classList.toggle('completed')
         //completed a todo then update the quantity
         count()
+        saveTodoList()
     })
 
     // edit todo
@@ -58,13 +61,14 @@ function addTodoElement(todo) {
                     spanTodo.innerText = editTodo.value.trim()
                     spanTodo.classList.remove('hidden')
                     editTodo.classList.add('hidden')
+                    saveTodoList()
                 }
             })
             editTodo.addEventListener('focusout', (e) => {
                 spanTodo.innerText = editTodo.value.trim()
                 editTodo.classList.add('hidden')
                 spanTodo.classList.remove('hidden')
-                
+                saveTodoList()
             })
         }  
     })
@@ -163,3 +167,25 @@ function hiddenFooter() {
         footer.classList.remove('hidden')
     }
 }
+function saveTodoList() {
+    let todoList = document.querySelectorAll('.item-todo')
+    let todoStorage = []
+    todoList.forEach((item) => {
+        let text = item.querySelector('span:first-child').innerText
+        let status = item.querySelector('span:first-child').getAttribute('class')
+
+        todoStorage.push({
+            text,
+            status
+        })
+    })
+    localStorage.setItem('todoList', JSON.stringify(todoStorage))
+}
+
+function init() {
+    let data = JSON.parse(localStorage.getItem('todoList'))
+    data.forEach(item => {
+        addTodoElement(item)
+    })
+}
+init()
