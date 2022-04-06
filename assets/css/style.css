@@ -57,9 +57,13 @@ main {
 }
 .item-todo > span,
 .item-todo > input {
+  margin: 0.5rem;
   padding: 1rem;
   max-width: 40rem;
   word-wrap: break-word;
+}
+.item-todo span:last-child {
+  cursor: pointer;
 }
 input[type='checkbox'] {
   height: 25px;
