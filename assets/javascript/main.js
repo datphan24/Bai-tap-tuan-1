@@ -76,11 +76,31 @@ function addTodoElement(todo) {
     todos.appendChild(liTodo)
     getActive()
     count()
+    tickAllTodo()
     deleteCompleted()
     hiddenFooter()
 }
 function tickAllTodo() {
-
+    let checkbox = document.querySelector('.checkbox');
+    let listAllSpan = document.querySelectorAll('.item-todo span:first-child')
+    
+    checkbox.addEventListener('click', function() {
+        if (this.checked == true) {
+            listAllSpan.forEach(item => {
+                if (!item.classList.contains('completed')) {
+                    item.classList.add('completed');
+                    count()
+                }
+            })
+        } else {
+            listAllSpan.forEach(item => {
+                if (item.classList.contains('completed')) {
+                    item.classList.remove('completed');
+                    count()
+                }
+            })
+        }
+    })
 }
 function getActive() {
     let buttonAll = document.getElementById(all)
