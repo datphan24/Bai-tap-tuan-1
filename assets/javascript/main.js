@@ -28,3 +28,8 @@ function addTodoElement(todo) {
     })
     todos.appendChild(li)
 }
+function getActive() {
+  let buttonAll = document.getElementById('all')
+  let buttonActive = document.getElementById('active')
+  let buttonCompleted = document.getElementById('completed')
+}
