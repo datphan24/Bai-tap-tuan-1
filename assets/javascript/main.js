@@ -4,14 +4,19 @@ const todos = document.querySelector('.list-todo')
 const all = 'all'
 const active = 'active'
 const completed = 'completed'
+let buttonAll = document.getElementById(all)
+let buttonActive = document.getElementById(active)
+let buttonCompleted = document.getElementById(completed)
 
 form.addEventListener('submit', (e)=>{
     e.preventDefault()
     let contentValue = inputContent.value.trim()
-    if(contentValue) {
+    inputContent.parentElement.firstElementChild.checked = false
+    if (contentValue) {
         addTodoElement({
             text: contentValue,
         })
+        checkActive()
         saveTodoList()
     }
     inputContent.value = ''
@@ -40,16 +45,17 @@ function addTodoElement(todo) {
             count()
             hiddenFooter()
             saveTodoList()
+            tickAllTodo()
         })
     // tick todo completed
     let spanTodo = liTodo.querySelector('span:first-child')
     spanTodo.addEventListener('click', function(e) {
         this.classList.toggle('completed')
+        checkActive()
         //completed a todo then update the quantity
         count()
         saveTodoList()
     })
-
     // edit todo
     spanTodo.addEventListener('dblclick', function(e) {
         this.classList.add('hidden')
@@ -64,7 +70,7 @@ function addTodoElement(todo) {
                     saveTodoList()
                 }
             })
-            editTodo.addEventListener('focusout', (e) => {
+            editTodo.addEventListener('blur', (e) => {
                 spanTodo.innerText = editTodo.value.trim()
                 editTodo.classList.add('hidden')
                 spanTodo.classList.remove('hidden')
@@ -83,30 +89,39 @@ function addTodoElement(todo) {
 function tickAllTodo() {
     let checkbox = document.querySelector('.checkbox');
     let listAllSpan = document.querySelectorAll('.item-todo span:first-child')
-    
+    checkbox.checked = false
+
+    if (listAllSpan.length == '0') {
+        checkbox.style.opacity = 0
+    } else {
+        checkbox.style.opacity = 1;
+    }
     checkbox.addEventListener('click', function() {
         if (this.checked == true) {
             listAllSpan.forEach(item => {
                 if (!item.classList.contains('completed')) {
                     item.classList.add('completed');
                     count()
+                    checkActive()
+                    saveTodoList()
                 }
             })
-        } else {
+        }else {
             listAllSpan.forEach(item => {
                 if (item.classList.contains('completed')) {
                     item.classList.remove('completed');
                     count()
+                    checkActive()
+                    saveTodoList()
                 }
             })
         }
     })
 }
+
 function getActive() {
-    let buttonAll = document.getElementById(all)
-    let buttonActive = document.getElementById(active)
-    let buttonCompleted = document.getElementById(completed)
     let itemTodos = document.querySelectorAll('.item-todo')
+
     //button all
     buttonAll.addEventListener('click', function() {
         this.classList.add('on')
@@ -146,13 +161,6 @@ function getActive() {
                 item.classList.add('hidden')
             }
         })
-        itemTodos.forEach(item => {
-            if (item.querySelector('span:first-child').classList.contains('completed')) {
-                item.classList.remove('hidden')
-            } else {
-                item.classList.add('hidden')
-            }
-        })
     })
 }
 function count() {
@@ -165,12 +173,14 @@ function count() {
 }
 function deleteCompleted() {
     let buttonClearCompleted = document.querySelector('#clear-completed')
-    
+
     buttonClearCompleted.addEventListener('click', function () {
         let listSpanCompleted = document.querySelectorAll('.item-todo .completed')
         listSpanCompleted.forEach(listSpanCompleted => {
             listSpanCompleted.parentElement.remove()
-            hiddenFooter() 
+            hiddenFooter()
+            tickAllTodo()
+            saveTodoList()
         })
     })
 }
@@ -186,6 +196,26 @@ function hiddenFooter() {
         stat.classList.remove('hidden')
         footer.classList.remove('hidden')
     }
+}
+function checkActive() {
+    let liTodo = document.querySelectorAll('.item-todo')
+    liTodo.forEach(item => {
+        let spanTodo = item.querySelector('span:first-child')
+    
+        if (buttonActive.classList.contains('on')) {
+            if (spanTodo.classList.contains('completed')) {
+                item.classList.add('hidden')
+            } else {
+                item.classList.remove('hidden')
+            }
+        }else if (buttonCompleted.classList.contains('on')) {
+            if (!spanTodo.classList.contains('completed')) {
+                item.classList.add('hidden')
+            } else {
+                item.classList.remove('hidden')
+            }
+        }
+    })
 }
 function saveTodoList() {
     let todoList = document.querySelectorAll('.item-todo')
