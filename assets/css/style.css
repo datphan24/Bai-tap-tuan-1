@@ -14,7 +14,7 @@ main {
 .general-size {
   min-height: 6rem;
   background: var(--clr-card-bg);
-  border-bottom: 2px solid var(--clr-gb-4);
+  border-bottom: 2px solid var(--clr-gb-3);
 }
 .add-content {
   background: var(--clr-card-bg);
@@ -23,16 +23,6 @@ main {
 .add-content > form {
   display: flex;
   justify-content: space-between;
-}
-.add-button {
-  width: 3rem;
-  height: 3rem;
-  margin: 1.5rem;
-  border-radius: 50%;
-  border: 1px solid var(--clr-gb-4);
-  background: var(--clr-card-bg);
-  color: var(--clr-gb-3);
-  cursor: pointer;
 }
 .add-input {
   border-radius: 5px;
@@ -47,7 +37,7 @@ main {
 /* content todo */
 .list-todo {
   margin-top: 2rem;
-  color: var(--clr-gb-2);
+  color: var(--clr-gb-1);
 }
 .item-todo {
   font-weight: var(--fw-normal);
@@ -62,7 +52,8 @@ main {
   max-width: 40rem;
   word-wrap: break-word;
 }
-.item-todo span:last-child {
+.item-todo span:last-child,
+.item-todo span:first-child {
   cursor: pointer;
 }
 input[type='checkbox'] {
@@ -71,10 +62,10 @@ input[type='checkbox'] {
   margin: 1.5rem;
   border-radius: 50%;
   cursor: pointer;
-  background: var(--clr-card-bg);
+  opacity: 0;
 }
 .completed {
-  color: var(--clr-gb-5);
+  color: var(--clr-gb-4);
   text-decoration: line-through;
 }
 /* footer */
@@ -82,7 +73,7 @@ input[type='checkbox'] {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  color: var(--clr-gb-3);
+  color: var(--clr-gb-2);
 }
 .button-footer {
   outline: none;
@@ -90,13 +81,13 @@ input[type='checkbox'] {
   padding: 5px;
   cursor: pointer;
   border: none;
-  color: var(--clr-gb-3);
+  color: var(--clr-gb-2);
 }
 .on {
   font-weight: bold;
   color: var(--clr-green);
 }
 footer {
-  color: var(--clr-gb-3);
+  color: var(--clr-gb-2);
   text-align: center;
 }
