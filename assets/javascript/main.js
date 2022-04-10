@@ -1,12 +1,13 @@
 const inputContent = document.querySelector('.add-content .add-input')
 const form = document.querySelector('form')
 const todos = document.querySelector('.list-todo')
+const checkBox = document.querySelector('.checkbox');
 const all = 'all'
 const active = 'active'
 const completed = 'completed'
-let buttonAll = document.getElementById(all)
-let buttonActive = document.getElementById(active)
-let buttonCompleted = document.getElementById(completed)
+const buttonAll = document.getElementById(all)
+const buttonActive = document.getElementById(active)
+const buttonCompleted = document.getElementById(completed)
 
 form.addEventListener('submit',(e) => {
   e.preventDefault()
@@ -15,6 +16,7 @@ form.addEventListener('submit',(e) => {
   if (contentValue) {
     addTodoElement({
       text: contentValue,
+      status: '',
     })
     checkActive()
     saveTodoList()
@@ -37,7 +39,7 @@ function addTodoElement(todo) {
   `
   
   liTodo.setAttribute('class', 'item-todo general-size')
-  //delete a todo use x
+  //delete a todo use icon x
   liTodo.querySelector('span:last-child')
     .addEventListener('click',function(e) {
       this.parentElement.remove()
@@ -52,6 +54,8 @@ function addTodoElement(todo) {
   spanTodo.addEventListener('click',function(e) {
     this.classList.toggle('completed')
     checkActive()
+    //checked checkbox when all span completed
+    tickAllTodo()
     //completed a todo then update the quantity
     count()
     saveTodoList()
@@ -87,16 +91,20 @@ function addTodoElement(todo) {
   hiddenFooter()
 }
 function tickAllTodo() {
-  let checkbox = document.querySelector('.checkbox');
   let listAllSpan = document.querySelectorAll('.item-todo span:first-child')
-  checkbox.checked = false
-
+  let listAllSpanComplete = document.querySelectorAll('.item-todo .completed')
+  checkBox.checked = false
+  //if there isn't value then hidden
   if (listAllSpan.length === 0) {
-    checkbox.style.opacity = 0
-  } else {
-    checkbox.style.opacity = 1;
+    checkBox.style.opacity = 0
+  }else {
+    checkBox.style.opacity = 1;
   }
-  checkbox.addEventListener('click',function() {
+  //if all span completed then checked checkbox
+  if (listAllSpan.length === listAllSpanComplete.length) {
+    checkBox.checked = true 
+  }
+  checkBox.addEventListener('click',function() {
     if (this.checked == true) {
       listAllSpan.forEach(item => {
         if (!item.classList.contains('completed')) {
