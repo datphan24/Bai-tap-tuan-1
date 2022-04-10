@@ -55,7 +55,8 @@ main {
   align-items: center;
   justify-content: space-between;
 }
-.item-todo span {
+.item-todo > span,
+.item-todo > input {
   padding: 1rem;
   max-width: 40rem;
   word-wrap: break-word;

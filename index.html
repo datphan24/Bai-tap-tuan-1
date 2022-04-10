@@ -32,7 +32,12 @@
         </div>
         <ul class="list-todo">
           <!-- <li class="item-todo general-size">
-            <span>${todo.text}</span>
+            <span class="completed">${todo.text}</span>
+            <input
+              type="text"
+              value="${todo.text}"
+              class="add-input"
+            />
             <span>
               <i class="fa fa-times-circle" aria-hidden="true"></i>
             </span>
@@ -41,7 +46,7 @@
         <div class="stat general-size">
           <p><span class="number-item">0</span> items left</p>
           <div class="filter">
-            <button id="all" class="on button-footer">All</button>
+            <button id="all" class="button-footer on">All</button>
             <button id="active" class="button-footer">Active</button>
             <button id="completed" class="button-footer">Completed</button>
           </div>
