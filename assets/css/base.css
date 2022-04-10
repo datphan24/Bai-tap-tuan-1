@@ -38,5 +38,5 @@ ul {
   list-style: none;
 }
 .hidden {
-  display: none;
+  display: none !important;
 }

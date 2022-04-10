@@ -37,7 +37,7 @@ function addTodoElement(todo) {
             this.parentElement.remove()
         })
     
-    var spanTodo = liTodo.querySelector('span:first-child')
+    let spanTodo = liTodo.querySelector('span:first-child')
     // tick todo completed
     spanTodo.addEventListener('click', function(e) {
         this.classList.toggle('completed')
@@ -50,7 +50,6 @@ function addTodoElement(todo) {
             editTodo.classList.remove('hidden')
             editTodo.addEventListener('keyup', function (e) {
                 if (e.keyCode === 13) {
-                    e.preventDefault();
                     spanTodo.innerText = editTodo.value.trim()
                     spanTodo.classList.remove('hidden')
                     editTodo.classList.add('hidden')
@@ -60,34 +59,61 @@ function addTodoElement(todo) {
     })
     
     todos.appendChild(liTodo)
+    getActive()
+    count()
 }
 
 function getActive() {
     let buttonAll = document.getElementById(all);
     let buttonActive = document.getElementById(active);
     let buttonCompleted = document.getElementById(completed);
-    let listTodo = document.querySelectorAll('.item-todo')
-
+    let itemTodos = document.querySelectorAll('.item-todo')
+    //button all
     buttonAll.addEventListener('click', function() {
         this.classList.add('on')
         buttonActive.classList.remove('on')
         buttonCompleted.classList.remove('on')
+
+        itemTodos.forEach(item => {
+            if (item.classList.contains('hidden')) {
+                item.classList.remove('hidden')
+            }
+        })
     })
+    //button active
     buttonActive.addEventListener('click', function() {
         this.classList.add('on')
         buttonAll.classList.remove('on')
         buttonCompleted.classList.remove('on')
-        listTodo.forEach(item => {
-            // if (item.querySelector('span:first-child').classList.contains('hidden')) {
-            //     item.classList.add('hidden')
-            // }
-            console.log(item)
+
+        itemTodos.forEach(item => {
+            let test = item.querySelector('span:first-child')
+            if (item.querySelector('span:first-child').classList.contains('completed')) {
+                item.classList.add('hidden');
+            }else {
+                item.classList.remove('hidden');
+            }
         })
     })
+    //button completed
     buttonCompleted.addEventListener('click', function() {
         this.classList.add('on')
         buttonAll.classList.remove('on')
         buttonActive.classList.remove('on')
+
+        itemTodos.forEach(item => {
+            if (item.querySelector('span:first-child').classList.contains('completed')) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        })
+        itemTodos.forEach(item => {
+            if (item.querySelector('span:first-child').classList.contains('completed')) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        })
     })
 }
-getActive()
