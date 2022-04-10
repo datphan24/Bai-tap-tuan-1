@@ -19,7 +19,7 @@ function addTodoElement(todo) {
     let liTodo = document.createElement('li');
     
     liTodo.innerHTML = `
-        <span class="">${todo.text}</span>
+        <span>${todo.text}</span>
         <input
             type="text"
             value="${todo.text}"
@@ -33,14 +33,18 @@ function addTodoElement(todo) {
     liTodo.setAttribute('class', 'item-todo general-size')
     //delete a todo
     liTodo.querySelector('span:last-child')
-        .addEventListener('click', function (e) {
+        .addEventListener('click', function(e) {
             this.parentElement.remove()
+            //delete a todo then update the quantity
+            count()
         })
     
     let spanTodo = liTodo.querySelector('span:first-child')
     // tick todo completed
     spanTodo.addEventListener('click', function(e) {
         this.classList.toggle('completed')
+        //completed a todo then update the quantity
+        count()
     })
     // edit todo
     spanTodo.addEventListener('dblclick', function(e) {
@@ -48,7 +52,7 @@ function addTodoElement(todo) {
         if (spanTodo.classList.contains('hidden')) {
             let editTodo = liTodo.querySelector('.add-input')
             editTodo.classList.remove('hidden')
-            editTodo.addEventListener('keyup', function (e) {
+            editTodo.addEventListener('keyup', (e) => {
                 if (e.keyCode === 13) {
                     spanTodo.innerText = editTodo.value.trim()
                     spanTodo.classList.remove('hidden')
@@ -116,4 +120,12 @@ function getActive() {
             }
         })
     })
+}
+function count() {
+    let listAllSpan = document.querySelectorAll('.item-todo span:first-child')
+    let listSpanCompleted = document.querySelectorAll('.item-todo .completed')
+    let countNumber = document.querySelector('.number-item')
+    
+    var count = listAllSpan.length - listSpanCompleted.length
+    countNumber.innerHTML = `${count}`
 }
