@@ -1,22 +1,22 @@
-const inputContent = document.querySelector('.add-content .add-input');
-const form = document.querySelector('form');
-const todos = document.querySelector('.list-todo');
-const all = 'all';
-const active = 'active';
-const completed = 'completed';
+const inputContent = document.querySelector('.add-content .add-input')
+const form = document.querySelector('form')
+const todos = document.querySelector('.list-todo')
+const all = 'all'
+const active = 'active'
+const completed = 'completed'
 
 form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    let contentValue = inputContent.value.trim();
+    e.preventDefault()
+    let contentValue = inputContent.value.trim()
     if(contentValue) {
         addTodoElement({
             text: contentValue,
         })
     }
-    inputContent.value = '';
+    inputContent.value = ''
 })
 function addTodoElement(todo) {
-    let liTodo = document.createElement('li');
+    let liTodo = document.createElement('li')
     
     liTodo.innerHTML = `
         <span>${todo.text}</span>
@@ -31,21 +31,22 @@ function addTodoElement(todo) {
     `
     
     liTodo.setAttribute('class', 'item-todo general-size')
-    //delete a todo
+    //delete a todo use x
     liTodo.querySelector('span:last-child')
         .addEventListener('click', function(e) {
             this.parentElement.remove()
             //delete a todo then update the quantity
             count()
+            hiddenFooter()
         })
-    
-    let spanTodo = liTodo.querySelector('span:first-child')
     // tick todo completed
+    let spanTodo = liTodo.querySelector('span:first-child')
     spanTodo.addEventListener('click', function(e) {
         this.classList.toggle('completed')
         //completed a todo then update the quantity
         count()
     })
+
     // edit todo
     spanTodo.addEventListener('dblclick', function(e) {
         this.classList.add('hidden')
@@ -59,18 +60,28 @@ function addTodoElement(todo) {
                     editTodo.classList.add('hidden')
                 }
             })
+            editTodo.addEventListener('focusout', (e) => {
+                spanTodo.innerText = editTodo.value.trim()
+                editTodo.classList.add('hidden')
+                spanTodo.classList.remove('hidden')
+                
+            })
         }  
     })
     
     todos.appendChild(liTodo)
     getActive()
     count()
+    deleteCompleted()
+    hiddenFooter()
 }
+function tickAllTodo() {
 
+}
 function getActive() {
-    let buttonAll = document.getElementById(all);
-    let buttonActive = document.getElementById(active);
-    let buttonCompleted = document.getElementById(completed);
+    let buttonAll = document.getElementById(all)
+    let buttonActive = document.getElementById(active)
+    let buttonCompleted = document.getElementById(completed)
     let itemTodos = document.querySelectorAll('.item-todo')
     //button all
     buttonAll.addEventListener('click', function() {
@@ -91,11 +102,10 @@ function getActive() {
         buttonCompleted.classList.remove('on')
 
         itemTodos.forEach(item => {
-            let test = item.querySelector('span:first-child')
             if (item.querySelector('span:first-child').classList.contains('completed')) {
-                item.classList.add('hidden');
+                item.classList.add('hidden')
             }else {
-                item.classList.remove('hidden');
+                item.classList.remove('hidden')
             }
         })
     })
@@ -107,16 +117,16 @@ function getActive() {
 
         itemTodos.forEach(item => {
             if (item.querySelector('span:first-child').classList.contains('completed')) {
-                item.classList.remove('hidden');
+                item.classList.remove('hidden')
             } else {
-                item.classList.add('hidden');
+                item.classList.add('hidden')
             }
         })
         itemTodos.forEach(item => {
             if (item.querySelector('span:first-child').classList.contains('completed')) {
-                item.classList.remove('hidden');
+                item.classList.remove('hidden')
             } else {
-                item.classList.add('hidden');
+                item.classList.add('hidden')
             }
         })
     })
@@ -125,7 +135,31 @@ function count() {
     let listAllSpan = document.querySelectorAll('.item-todo span:first-child')
     let listSpanCompleted = document.querySelectorAll('.item-todo .completed')
     let countNumber = document.querySelector('.number-item')
-    
-    var count = listAllSpan.length - listSpanCompleted.length
+    let count = listAllSpan.length - listSpanCompleted.length
+
     countNumber.innerHTML = `${count}`
+}
+function deleteCompleted() {
+    let buttonClearCompleted = document.querySelector('#clear-completed')
+    
+    buttonClearCompleted.addEventListener('click', function () {
+        let listSpanCompleted = document.querySelectorAll('.item-todo .completed')
+        listSpanCompleted.forEach(listSpanCompleted => {
+            listSpanCompleted.parentElement.remove()
+            hiddenFooter() 
+        })
+    })
+}
+function hiddenFooter() {
+    let itemTodos = document.querySelectorAll('.item-todo')
+    let stat = document.querySelector('.stat')
+    let footer = document.querySelector('footer')
+    
+    if (itemTodos.length == 0) {
+        stat.classList.add('hidden')
+        footer.classList.add('hidden')
+    } else {
+        stat.classList.remove('hidden')
+        footer.classList.remove('hidden')
+    }
 }
