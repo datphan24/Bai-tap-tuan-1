@@ -9,7 +9,7 @@ const buttonAll = document.getElementById(all)
 const buttonActive = document.getElementById(active)
 const buttonCompleted = document.getElementById(completed)
 
-form.addEventListener('submit',(e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault()
   let contentValue = inputContent.value.trim()
   inputContent.parentElement.firstElementChild.checked = false
@@ -41,7 +41,7 @@ function addTodoElement(todo) {
   liTodo.setAttribute('class', 'item-todo general-size')
   //delete a todo use icon x
   liTodo.querySelector('span:last-child')
-    .addEventListener('click',function(e) {
+    .addEventListener('click', function(e) {
       this.parentElement.remove()
       //delete a todo then update the quantity
       count()
@@ -51,7 +51,7 @@ function addTodoElement(todo) {
     })
   // tick todo completed
   let spanTodo = liTodo.querySelector('span:first-child')
-  spanTodo.addEventListener('click',function(e) {
+  spanTodo.addEventListener('click', function(e) {
     this.classList.toggle('completed')
     checkActive()
     //checked checkbox when all span completed
@@ -61,12 +61,12 @@ function addTodoElement(todo) {
     saveTodoList()
   })
   // edit todo
-  spanTodo.addEventListener('dblclick',function(e) {
+  spanTodo.addEventListener('dblclick', function(e) {
     this.classList.add('hidden')
     if (spanTodo.classList.contains('hidden')) {
       let editTodo = liTodo.querySelector('.add-input')
       editTodo.classList.remove('hidden')
-      editTodo.addEventListener('keyup',(e) => {
+      editTodo.addEventListener('keyup', (e) => {
         if (e.keyCode === 13) {
           spanTodo.innerText = editTodo.value.trim()
           spanTodo.classList.remove('hidden')
@@ -74,7 +74,7 @@ function addTodoElement(todo) {
           saveTodoList()
         }
       })
-      editTodo.addEventListener('blur',(e) => {
+      editTodo.addEventListener('blur', (e) => {
         spanTodo.innerText = editTodo.value.trim()
         editTodo.classList.add('hidden')
         spanTodo.classList.remove('hidden')
@@ -104,7 +104,7 @@ function tickAllTodo() {
   if (listAllSpan.length === listAllSpanComplete.length) {
     checkBox.checked = true 
   }
-  checkBox.addEventListener('click',function() {
+  checkBox.addEventListener('click', function() {
     if (this.checked == true) {
       listAllSpan.forEach(item => {
         if (!item.classList.contains('completed')) {
@@ -131,7 +131,7 @@ function getActive() {
   let itemTodos = document.querySelectorAll('.item-todo')
 
   //button all
-  buttonAll.addEventListener('click',function() {
+  buttonAll.addEventListener('click', function() {
     this.classList.add('on')
     buttonActive.classList.remove('on')
     buttonCompleted.classList.remove('on')
@@ -143,7 +143,7 @@ function getActive() {
     })
   })
   //button active
-  buttonActive.addEventListener('click',function() {
+  buttonActive.addEventListener('click', function() {
     this.classList.add('on')
     buttonAll.classList.remove('on')
     buttonCompleted.classList.remove('on')
@@ -157,7 +157,7 @@ function getActive() {
     })
   })
   //button completed
-  buttonCompleted.addEventListener('click',function() {
+  buttonCompleted.addEventListener('click', function() {
     this.classList.add('on')
     buttonAll.classList.remove('on')
     buttonActive.classList.remove('on')
@@ -182,7 +182,7 @@ function count() {
 function deleteCompleted() {
   let buttonClearCompleted = document.querySelector('#clear-completed')
 
-  buttonClearCompleted.addEventListener('click',function () {
+  buttonClearCompleted.addEventListener('click', function () {
     let listSpanCompleted = document.querySelectorAll('.item-todo .completed')
     listSpanCompleted.forEach(listSpanCompleted => {
       listSpanCompleted.parentElement.remove()
