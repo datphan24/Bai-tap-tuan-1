@@ -25,7 +25,7 @@ form.addEventListener('submit', (e) => {
 })
 function addTodoElement(todo) {
   let liTodo = document.createElement('li')
-  
+
   liTodo.innerHTML = `
     <span class='${todo.status}'>${todo.text}</span>
     <input
@@ -37,7 +37,7 @@ function addTodoElement(todo) {
       <i class="fa fa-times-circle" aria-hidden="true"></i>
     </span>
   `
-  
+
   liTodo.setAttribute('class', 'item-todo general-size')
   //delete a todo use icon x
   liTodo.querySelector('span:last-child')
@@ -66,6 +66,8 @@ function addTodoElement(todo) {
     if (spanTodo.classList.contains('hidden')) {
       let editTodo = liTodo.querySelector('.add-input')
       editTodo.classList.remove('hidden')
+      editTodo.focus()
+      editTodo.setSelectionRange(editTodo.value.length, editTodo.value.length);
       editTodo.addEventListener('keyup', (e) => {
         if (e.keyCode === 13) {
           spanTodo.innerText = editTodo.value.trim()
@@ -75,14 +77,18 @@ function addTodoElement(todo) {
         }
       })
       editTodo.addEventListener('blur', (e) => {
+        if (editTodo.value === '') {
+          this.parentElement.remove()
+          count()
+        }
         spanTodo.innerText = editTodo.value.trim()
         editTodo.classList.add('hidden')
         spanTodo.classList.remove('hidden')
         saveTodoList()
       })
-    }  
+    }
   })
-  
+
   todos.appendChild(liTodo)
   getActive()
   count()
@@ -102,7 +108,7 @@ function tickAllTodo() {
   }
   //if all span completed then checked checkbox
   if (listAllSpan.length === listAllSpanComplete.length) {
-    checkBox.checked = true 
+    checkBox.checked = true
   }
   checkBox.addEventListener('click', function() {
     if (this.checked == true) {
@@ -196,7 +202,7 @@ function hiddenFooter() {
   let itemTodos = document.querySelectorAll('.item-todo')
   let stat = document.querySelector('.stat')
   let footer = document.querySelector('footer')
-  
+
   if (itemTodos.length == 0) {
     stat.classList.add('hidden')
     footer.classList.add('hidden')
