@@ -80,6 +80,8 @@ function addTodoElement(todo) {
         if (editTodo.value === '') {
           this.parentElement.remove()
           count()
+          hiddenFooter()
+          tickAllTodo()
         }
         spanTodo.innerText = editTodo.value.trim()
         editTodo.classList.add('hidden')
